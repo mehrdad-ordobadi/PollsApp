@@ -12,5 +12,6 @@ urlpatterns = [
     # ex: /polls/5/vote/
     path("<int:question_id>/vote/", views.vote, name="vote"),
     # ex: /polls/5/text/
-    path("<int:question_id>/text/", views.question_text, name="question_text")
+    path("<int:question_id>/text/", views.question_text, name="question_text"),
+    path("<int:question_id>/vote/<int:choice_id>/", views.cast_vote, name="cast_vote")
 ]

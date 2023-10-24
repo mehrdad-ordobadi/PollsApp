@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.db.models import F
 
-from .models import Question
+from .models import Question, Choice
 
 
 def index(request):
@@ -31,3 +32,16 @@ def question_text(request, question_id):
         return HttpResponse(f"Sorry, there is no question with id {question_id} yet!")
     response = f'The text for question {question_id} is: \n{question.question_text}'
     return HttpResponse(response)
+
+def cast_vote(request, question_id, choice_id):
+    choice = get_object_or_404(Choice, pk=choice_id)
+    question = get_object_or_404(Question, pk=question_id)
+    choice.votes = F('votes') + 1
+    choice.save()
+    question = choice.question
+    responses = [
+        (response.choice_text, response.votes) 
+        for response in question.choice_set.all()
+    ]
+    context = {'question': question, 'responses': responses}
+    return render(request, "polls/view-votes.html", context)

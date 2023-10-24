@@ -1,0 +1,22 @@
+{% block content %}
+<h2>Poll Results for question:</h2>
+
+<p>{{question.question_text}}</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Choice</th>
+            <th>Votes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for choice_text, votes in responses %}
+        <tr>
+            <td>{{ choice_text }}</td>
+            <td>{{ votes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
